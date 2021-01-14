@@ -7,7 +7,7 @@ void update (const float * const mx, const float * const my, const float * const
             const float * const Dz_s, const float * const Jx_o,
             const float * const Jy_o, const float * const Jz_o,
             const float * const Dx_o, const float * const Dy_o,
-            const float * const Dz_o, const grid_color color, bool * dirty,
+            const float * const Dz_o, const grid_color color,
             float * new_x, float * new_y, float * new_z,
             const float * const other_x, const float * const other_y,
             const float * const other_z, const int L,

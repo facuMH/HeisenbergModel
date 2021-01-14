@@ -43,13 +43,13 @@ void energy(const float * const mx, const float * const my,
     private(cxm, cxp, cym, cyp, czm, czp,idx_zm,idx_ym,idx_xm,idx_zp,\
     idx_yp, idx_xp,index, px, py, pz, ener, local_ex, local_an, local_dm, x)
     for (z=0; z<2*L; z++){
-        for (y=0; iy<2*L; y++){
+        for (y=0; y<2*L; y++){
             local_ex = 0.0f;
             local_an = 0.0f;
             local_dm = 0.0f;
             for (x=0; x<L; x++){
 
-                ixf = 2*ix + STRF(color,y, z);   // i on full size matrix
+                ixf = 2*x + STRF(color,y, z);   // i on full size matrix
                 idx_rb = RB(x, y, z);        // index for color matrix
 
                 px = mx[idx_rb];

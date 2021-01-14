@@ -46,7 +46,6 @@ float * sum_array_1, * sum_array_2, * sum_array_3;
 
 static int allocate_data (void)
 {
-  dirty = (bool *) calloc (N, sizeof(bool));
   oc = (int *) calloc (N, sizeof(int));
   macr_r = (float *) calloc (RBN, sizeof(float));
   macr_b = (float *) calloc (RBN, sizeof(float));
@@ -178,33 +177,6 @@ static void free_data(){
   if (sum_array_2) free(sum_array_2);
   if (sum_array_3) free(sum_array_3);
 };
-
-
-void save_conf(){
-    std::ofstream myfile;
-    std::string filename = "config" + current_t_d() + ".txt";
-    myfile.open (filename);
-    myfile << "# L= " << L << "\n";
-    std::cout << "# L= " << L << "\n";
-    myfile << "# f_cr= " << frac << "\n";
-    myfile << "# fluc_cr=" << flucfrac << "\n";
-    myfile << "# Mfe= " << mfe << "\n";
-    myfile << "# Mcr= " << mcr << "\n";
-    myfile << "# fefe=" << Jfefe << "\n";
-    myfile << "# fecr=" << Jfecr << "\n";
-    myfile << "# crcr=" << Jcrcr << "\n";
-    myfile << "# Kafm=" << Kcr << "\n";
-    myfile << "# Kfm=" << Kfe << "\n";
-    myfile << "# Hfc=" << Hfc << "\n";
-    myfile << "# Dfefe=" << Dfefe << "\n";
-    myfile << "# Dfecr=" << Dfecr << "\n";
-    myfile << "# Dcrcr=" << Dcrcr << "\n";
-    myfile << "# MCS/pto=" << tmax << "\n";
-    myfile << "# t_mic=" << t_mic << "\n";
-    myfile << "# Nsamp=" << Nsamp << "\n";
-    myfile.close();
-}
-
 
 /*
 This function defines the element for each site of the cubic matrix
@@ -384,7 +356,7 @@ int main(int argc, char * argv[]){
     MyApp app;
     if (graphics){
       app.App_init();
-      app.init();
+      app.init(L);
     }
 
     std::cout << "\n";
@@ -505,12 +477,12 @@ int main(int argc, char * argv[]){
             start = omp_get_wtime();
             update(mx_r, my_r, mz_r, KA_r, mc_r, Jx_r, Jy_r, Jz_r, Dx_r,
                    Dy_r, Dz_r, Jx_b, Jy_b, Jz_b, Dx_b, Dy_b, Dz_b,
-                   RED_TILES, dirty, red_x, red_y, red_z, mx_b, my_b,
+                   RED_TILES, red_x, red_y, red_z, mx_b, my_b,
                    mz_b, L, Hx, Hy, Hz, Temp, cont1, Rng, Uni);
 
             update(mx_b, my_b, mz_b, KA_b, mc_b, Jx_b, Jy_b, Jz_b, Dx_b,
                    Dy_b, Dz_b, Jx_r, Jy_r, Jz_r, Dx_r, Dy_r, Dz_r,
-                   BLACK_TILES, dirty, black_x, black_y, black_z, mx_r, my_r,
+                   BLACK_TILES, black_x, black_y, black_z, mx_r, my_r,
                    mz_r, L, Hx, Hy, Hz, Temp, cont2, Rng, Uni);
 
             stop = omp_get_wtime();
@@ -532,7 +504,7 @@ int main(int argc, char * argv[]){
             aux_termal += 1.0e9*(stop- start) / (N);
             counter +=1;
             if (graphics)
-              app.drawOne(mx_r, my_r, mz_r, oc, L);
+              app.drawOne(mx_r, my_r, mz_r, mx_b, my_b, mz_b);
         }
 
         std::cout << " average: " << (suma/(float)counter)/(float)N;
@@ -546,12 +518,12 @@ int main(int argc, char * argv[]){
             start = omp_get_wtime();
             update(mx_r, my_r, mz_r, KA_r, mc_r, Jx_r, Jy_r, Jz_r, Dx_r,
                    Dy_r, Dz_r, Jx_b, Jy_b, Jz_b, Dx_b, Dy_b, Dz_b,
-                   RED_TILES, dirty, red_x, red_y, red_z, mx_b, my_b,
+                   RED_TILES, red_x, red_y, red_z, mx_b, my_b,
                    mz_b, L, Hx, Hy, Hz, Temp, cont1, Rng, Uni);
 
             update(mx_b, my_b, mz_b, KA_b, mc_b, Jx_b, Jy_b, Jz_b, Dx_b,
                    Dy_b, Dz_b, Jx_r, Jy_r, Jz_r, Dx_r, Dy_r, Dz_r,
-                   BLACK_TILES, dirty, black_x, black_y, black_z, mx_r, my_r,
+                   BLACK_TILES, black_x, black_y, black_z, mx_r, my_r,
                    mz_r, L, Hx, Hy, Hz, Temp, cont2, Rng, Uni);
 
             stop = omp_get_wtime();
@@ -572,7 +544,7 @@ int main(int argc, char * argv[]){
             counter += 1;
             aux_second += 1.0e9*(stop- start) / (N);
             if (graphics)
-              app.drawOne(mx_r, my_r, mz_r, oc, L);
+                            app.drawOne(mx_r, my_r, mz_r, mx_b, my_b, mz_b);
 
             R += suma;
 

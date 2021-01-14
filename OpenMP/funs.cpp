@@ -13,7 +13,7 @@ void init_fill(float * mx, float * my, float * mz, const grid_color color,
 
     float res = 0.0f;
     int t_id;
-    #pragma omp parallel for collapse(3) default(none) shared(mx, my, mz, std::cout, Rng, Uni)\
+    #pragma omp parallel for collapse(3) default(none) shared(mx, my, mz, L, Rng, Uni, color)\
     private(rbi, index, ixf, tmp1, tmp2, res, t_id)
     for (z=0; z<2*L; z++){
         for (y=0; y<2*L; y++){
@@ -47,7 +47,7 @@ void init_oc(int * oc, float * macr, float * mafe, const int L,
     float res = 0.0f;
     int t_id = 0;
     int ixf = 0;
-    #pragma omp parallel for collapse(3) default(none) shared(oc, macr, mafe, std::cout, Rng, Uni, frac, color)\
+    #pragma omp parallel for collapse(3) default(none) shared(oc, macr, mafe, L, Rng, Uni, frac, color)\
     private(index, tmp3, res, t_id, rbi, ixf)
     for (z=0; z<2*L; z++){
         for (y=0; y<2*L; y++){
@@ -81,7 +81,7 @@ void interac_init(int * oc, float * KA,
     int index = 0, rbi = 0, ixf = 0;
     int idx_i1 = 0, idx_j1 = 0, idx_k1 = 0;
 
-    #pragma omp parallel for collapse(3) default(none) shared(oc, KA, Jx, Jy, Jz, Dx, Dy, Dz)\
+    #pragma omp parallel for collapse(3) default(none) shared(oc, KA, Jx, Jy, Jz, Dx, Dy, Dz, L, color)\
      private(index, rbi, ixf, idx_i1, idx_j1, idx_k1)
     for (z=0; z<2*L; z++){
         for (y=0; y<2*L; y++){
@@ -168,7 +168,7 @@ void mc_init(int * oc, float * mc, const int L, grid_color color){
     int x = 0, y = 0, z = 0;
     int index = 0, ixf = 0, rbi = 0;
 
-    #pragma omp parallel for collapse(3) default(none) shared(mc, oc, color) private(index, ixf, rbi)
+    #pragma omp parallel for collapse(3) default(none) shared(mc, oc, color, L) private(index, ixf, rbi)
     for (z=0; z<2*L; z++){
         for (y=0; y<2*L; y++){
             for (x=0; x<L; x++){

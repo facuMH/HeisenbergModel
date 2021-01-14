@@ -44,7 +44,9 @@ void update(const float * const mx, const float * const my, const float * const 
 
     int t_id = 0;
     #pragma omp parallel for collapse(2) default(none) shared(new_x, new_y,\
-    new_z, cont, dirty, std::cout, Rng, Uni) private(cxm, cxp, cym, cyp,\
+    new_z, cont, Rng, Uni, L, color, n, mx, my, mz, KA, Hx, Hy, Hz, mc,\
+    other_x, other_y, other_z, Jx_s, Jy_s, Jz_s, Jx_o, Jy_o, Jz_o,\
+    Dx_s, Dy_s, Dz_s, Dx_o, Dy_o, Dz_o, Temp ) private(cxm, cxp, cym, cyp,\
     czm, czp, index, px, py, pz, mxn, myn, mzn, E1, E2, E3, theta_n, phi_n,\
     sen_theta, Delta_E, rbxp, rbyp, rbzp, rbxm, rbym, rbzm, ixf, idx_rb,\
     first, second, exponential, t_id, res, x)

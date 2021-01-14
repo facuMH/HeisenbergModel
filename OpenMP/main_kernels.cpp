@@ -16,7 +16,7 @@ void calculate(const float * mx, const float * my,
 
     #pragma omp parallel for collapse(2) shared(var_x,var_y,var_z)\
     private(rb_1,rb_2,rb_3,index,rbi,ixf, local_x, local_y,\
-    local_z, i)
+    local_z, x)
     for (z=0; z<2*L; z++){
         for (y=0; y<2*L; y++){
             local_x = 0.0f;
